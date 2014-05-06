@@ -1,10 +1,17 @@
 # couch-daemon
 [![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
 
-CouchDB Daemon
+Abstract daemon code for building CouchDB daemons.
+
+## Daemons in the wild
+* [couchmagick](https://github.com/jo/couchmagick)
+* [massage-couch](https://github.com/jo/massage-couch)
+
+(Send me a pull to add yours.)
 
 ## Contributing
-Test your code with `npm test` and lint the code via `npm run jshint`.
+Write tests with [tap](https://github.com/isaacs/node-tap),
+then test your code with `npm test`.
 
 You can set a different CouchDB url (and authentication credentials) via `COUCH` environment variable:
 ```shell
