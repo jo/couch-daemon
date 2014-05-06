@@ -20,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/jo/couch-daemon/issues"
   },
-  "homepage": "https://github.com/jo/couch-daemon"
+  "homepage": "https://github.com/jo/couch-daemon",
+  "dependencies": {
+    "async": "^0.8.0",
+    "nano": "^5.8.0",
+    "event-stream": "^3.1.5",
+    "JSONStream": "^0.7.3"
+  },
+  "devDependencies": {
+    "tap": "^0.4.9"
+  }
 }
