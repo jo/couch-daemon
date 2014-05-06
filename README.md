@@ -1,4 +1,6 @@
 # couch-daemon
+[![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
+
 CouchDB Daemon
 
 ## Contributing
