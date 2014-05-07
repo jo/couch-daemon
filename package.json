@@ -4,7 +4,7 @@
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,9 @@
   "dependencies": {
     "async": "^0.8.0",
     "nano": "^5.8.0",
-    "event-stream": "^3.1.5",
-    "JSONStream": "^0.7.3"
+    "JSONStream": "^0.7.3",
+    "highland": "^1.24.0",
+    "minimist": "0.0.8"
   },
   "devDependencies": {
     "tap": "^0.4.9"
