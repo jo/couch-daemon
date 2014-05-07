@@ -3,6 +3,8 @@
  */
 
 
+exports.client = require('./lib/client');
+
 exports.stream = require('./lib/stream');
 exports.logger = require('./lib/logger');
 exports.compile = require('./lib/compile');

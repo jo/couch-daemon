@@ -3,6 +3,9 @@
 
 Abstract daemon code for building CouchDB daemons.
 
+# This is still work in progress!
+Do not use it, everything can change.
+
 ## Daemons in the wild
 * [couchmagick](https://github.com/jo/couchmagick) TBD
 * [massage-couch](https://github.com/jo/massage-couch) TBD
