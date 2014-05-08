@@ -9,18 +9,18 @@
 var _ = require('highland');
 
 var client = require('../lib/client')(process.argv);
-// You actually want this:
+// You'll actually want this:
 // var client = require('couch-daemon').client(process.argv);
 
 
 // kick things of
 _.pipeline(
   client.stream,
-
+ 
+  
   _.filter(function(d) {
     return d.dbname && d.id;
   }),
-
   _.map(function(d) {
     return {
       type: 'log',
@@ -28,5 +28,7 @@ _.pipeline(
     };
   }),
 
+
+  client.checkpoint,
   client.logger
 );
