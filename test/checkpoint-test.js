@@ -9,6 +9,16 @@ helper.withDB('single doc', function(couch, db, t, done) {
     _id: 'mydoc',
     foo: 'bar'
   };
+  var checkpointDoc = {
+    _id: '_local/mycheckpoint',
+    foo: 'bar'
+  };
+  var e = {
+    type: 'complete',
+    db: db,
+    checkpoint: checkpointDoc,
+    seq: 1
+  };
 
   db.insert(doc, doc._id, function(err, resp) {
     t.equal(err, null, 'no error');
@@ -17,16 +27,15 @@ helper.withDB('single doc', function(couch, db, t, done) {
     doc._rev = resp.rev;
 
     _.pipeline(
-      db.changes({ include_docs: true }),
-      JSONStream.parse('results.*'),
+      _([e]),
       checkpoint()
     ).toArray(function(rows) {
-      t.equal(rows.length, 1, 'one row included');
-      t.ok(rows[0].seq, 'seq is present');
-      t.equal(rows[0].id, doc._id, 'doc id is present');
-      t.deepEqual(rows[0].doc, doc, 'doc is present');
-
-      // the next row is the checkpoint event
+      t.equal(rows.length, 2, 'two rows included');
+      t.equal(rows[0].type, 'complete', 'first row is completed');
+      t.deepEqual(rows[0].checkpoint, checkpointDoc, 'checkpoint doc is present');
+      t.equal(rows[1].type, 'checkpointed', 'second row is checkpointed');
+      t.deepEqual(rows[1].checkpoint, checkpointDoc, 'checkpoint doc is present');
+      t.ok(rows[1].checkpoint._rev, 'checkpoint doc has rev');
 
       done();
     });

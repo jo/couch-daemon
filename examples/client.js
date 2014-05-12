@@ -15,16 +15,19 @@ var client = require('../lib/client')(process.argv);
 
 // kick things of
 _.pipeline(
-  client.stream,
+  client.dbs,
+  client.ddocs,
+  client.changes,
+  // client.compile,
  
   
   _.filter(function(d) {
-    return d.dbname && d.id;
+    return d.type === 'change:doc';
   }),
   _.map(function(d) {
     return {
       type: 'log',
-      message: 'processing: ' + d.dbname + '/' + d.id
+      message: 'processing: ' + d.db.config.db + '/' + d.doc._id + '@' + d.seq
     };
   }),
 
