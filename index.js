@@ -5,7 +5,11 @@
 
 exports.client = require('./lib/client');
 
-exports.stream = require('./lib/stream');
-exports.logger = require('./lib/logger');
+exports.dbs = require('./lib/dbs');
+exports.ddocs = require('./lib/ddocs');
+exports.changes = require('./lib/changes');
 exports.compile = require('./lib/compile');
+
 exports.checkpoint = require('./lib/checkpoint');
+exports.logger = require('./lib/logger');
+

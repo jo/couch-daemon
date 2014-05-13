@@ -1,10 +1,9 @@
 # couch-daemon
-[![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
+[![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)   
+High-level os daemon API for CouchDB.
 
-Abstract daemon code for building CouchDB daemons.
-
-# This is still work in progress!
-Do not use it, everything can change.
+# This is work in progress!
+Everything can change.
 
 ## Daemons in the wild
 * [couchmagick](https://github.com/jo/couchmagick) TBD
@@ -16,14 +15,14 @@ Do not use it, everything can change.
 An example client is included, which just prints out each doc in each dbs:
 
 ```shell
-./examples/client.js --streams 100 --limit 1000 --timeout 1000 --name my-daemon
+./examples/client.js --name my-daemon
 ```
 
 ## Contributing
 Write tests with [tap](https://github.com/isaacs/node-tap),
 then test your code with `npm test`.
 
-You can set a different CouchDB url (and authentication credentials) via `COUCH` environment variable:
+Specify CouchDB url and credentials via `COUCH` environment variable:
 ```shell
 COUCH=http://user:password@localhost:5984 npm test
 ```

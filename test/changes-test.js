@@ -3,14 +3,15 @@ var changes = require('../lib/changes');
 
 var _ = require('highland');
 
-helper.withDB('single doc', function(couch, db, t, done) {
+helper.withDB('piped from db stream', function(couch, db, t, done) {
   var doc = {
     _id: 'mydoc',
     foo: 'bar'
   };
   var e = {
-    type: 'db:initialized',
-    db: db
+    stream: 'dbs',
+    type: 'created',
+    db_name: db.config.db
   };
 
   db.insert(doc, doc._id, function(err, resp) {
@@ -19,46 +20,17 @@ helper.withDB('single doc', function(couch, db, t, done) {
 
     doc._rev = resp.rev;
 
-    _.pipeline(
-      _([e]),
-      changes({ feed: 'poll' }),
-      _.take(2)
-    ).toArray(function(results) {
-      t.equal(results.length, 2, 'two result lines included');
-      t.equal(results[0].type, 'db:initialized', 'first result has correct db:initialized type');
-      t.equal(results[1].type, 'change:doc', 'second result has correct change:doc type');
-      t.deepEqual(results[1].doc, doc, 'doc is present');
-      done();
-    });
-  });
-});
-
-helper.withDB('continuous feed', function(couch, db, t, done) {
-  var doc = {
-    _id: 'mydoc',
-    foo: 'bar'
-  };
-  var e = {
-    type: 'db:initialized',
-    db: db
-  };
-
-  db.insert(doc, doc._id, function(err, resp) {
-    t.equal(err, null, 'no error');
-    t.ok(resp.ok, 'no error');
-
-    doc._rev = resp.rev;
-
-    _.pipeline(
-      _([e]),
-      changes({ feed: 'continuous', timeout: 1 }),
-      _.take(2)
-    ).toArray(function(results) {
-      t.equal(results.length, 2, 'two result lines included');
-      t.equal(results[0].type, 'db:initialized', 'first result has correct db:initialized type');
-      t.equal(results[1].type, 'change:doc', 'second result has correct change:doc type');
-      t.deepEqual(results[1].doc, doc, 'doc is present');
-      done();
-    });
+    var stream = _.pipeline(
+        _([e]),
+        changes(couch.config.url)
+      )
+      .take(1)
+      .toArray(function(results) {
+        t.equal(results.length, 1, 'one result included');
+        t.equal(results[0].stream, 'changes', 'changes stream');
+        t.equal(results[0].db_name, db.config.db, 'correct db_name present');
+        t.equal(results[0].id, doc._id, 'doc id is present');
+        done();
+      });
   });
 });

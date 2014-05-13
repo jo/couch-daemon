@@ -6,32 +6,23 @@
  * (c) 2014 Johannes J. Schmidt, null2 GmbH, Berlin 
  */
 
-var _ = require('highland');
-
 var client = require('../lib/client')(process.argv);
+
 // You'll actually want this:
 // var client = require('couch-daemon').client(process.argv);
 
 
-// kick things of
-_.pipeline(
-  client.dbs,
-  client.ddocs,
-  client.changes,
-  // client.compile,
- 
-  
-  _.filter(function(d) {
-    return d.type === 'change:doc';
-  }),
-  _.map(function(d) {
+client(function(s) {
+  return s.filter(function(d) {
+    return d.db_name && d.id && d.seq;
+  })
+  .map(function(d) {
     return {
       type: 'log',
-      message: 'processing: ' + d.db.config.db + '/' + d.doc._id + '@' + d.seq
+      message: 'processing: ' + d.db_name + '/' + d.id + '@' + d.seq,
+      db_name: d.db_name,
+      seq: d.seq
     };
-  }),
+  });
+});
 
-
-  client.checkpoint,
-  client.logger
-);

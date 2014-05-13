@@ -3,7 +3,7 @@ var ddocs = require('../lib/ddocs');
 
 var _ = require('highland');
 
-helper.withDB('single ddoc', function(couch, db, t, done) {
+helper.withDB('piped from dbs', function(couch, db, t, done) {
   var docs = [
     {
       _id: '_design/myconfig',
@@ -15,8 +15,9 @@ helper.withDB('single ddoc', function(couch, db, t, done) {
     }
   ];
   var e = {
-    type: 'db:initialized',
-    db: db
+    stream: 'dbs',
+    type: 'created',
+    db_name: db.config.db
   };
 
   db.bulk({ docs: docs }, function(err, resp) {
@@ -26,16 +27,30 @@ helper.withDB('single ddoc', function(couch, db, t, done) {
 
     _.pipeline(
       _([e, e]),
-      ddocs()
-    ).toArray(function(rows) {
-      t.equal(rows.length, 6, 'four rows included');
-      t.equal(rows[0].type, 'ddoc:initialized', 'first ddoc:initialized');
-      t.equal(rows[1].type, 'ddoc:initialized', 'second ddoc:initialized');
-      t.equal(rows[2].type, 'db:initialized', 'first db:initialized');
-      t.equal(rows[3].type, 'ddoc:initialized', 'first ddoc:initialized');
-      t.equal(rows[4].type, 'ddoc:initialized', 'second ddoc:initialized');
-      t.equal(rows[5].type, 'db:initialized', 'second db:initialized');
-      done();
-    });
+      ddocs(couch.config.url)
+    )
+      .toArray(function(rows) {
+        t.equal(rows.length, 6, 'six rows included');
+
+        t.equal(rows[0].stream, 'ddocs', 'ddocs stream');
+        t.equal(rows[0].id, docs[0]._id, 'ddoc emitted');
+
+        t.equal(rows[1].stream, 'ddocs', 'ddocs stream');
+        t.equal(rows[1].id, docs[1]._id, 'ddoc emitted');
+
+        t.equal(rows[2].stream, 'dbs', 'dbs stream');
+        t.equal(rows[2].type, 'created', 'db created');
+
+        t.equal(rows[3].stream, 'ddocs', 'ddocs stream');
+        t.equal(rows[3].id, docs[0]._id, 'ddoc emitted');
+
+        t.equal(rows[4].stream, 'ddocs', 'ddocs stream');
+        t.equal(rows[4].id, docs[1]._id, 'ddoc emitted');
+
+        t.equal(rows[5].stream, 'dbs', 'dbs stream');
+        t.equal(rows[5].type, 'created', 'db created');
+
+        done();
+      });
   });
 });
