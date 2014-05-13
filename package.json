@@ -1,6 +1,6 @@
 {
   "name": "couch-daemon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/jo/couch-daemon",
   "dependencies": {
-    "async": "^0.8.0",
     "nano": "^5.8.0",
     "JSONStream": "^0.7.3",
     "highland": "^1.24.0",
