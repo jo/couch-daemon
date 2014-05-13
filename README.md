@@ -1,6 +1,7 @@
 # couch-daemon
-[![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)   
 High-level os daemon API for CouchDB.
+
+[![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
 
 # This is work in progress!
 Everything can change.
