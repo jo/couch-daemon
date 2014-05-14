@@ -14,13 +14,13 @@ daemon(function(source) {
 
   return source
     .map(function(data) {
-      if (data.stream === 'dbs' && data.db_name) {
+      if (data.stream === 'dbs') {
         return {
           type: 'log',
           message: 'listening on: ' + data.db_name
         };
       }
-      if (data.db_name && data.id && data.seq) {
+      if (data.stream === 'changes') {
         count++;
         return {
           type: 'log',
