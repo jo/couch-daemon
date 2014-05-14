@@ -9,7 +9,7 @@
 var daemon = require('..');
 
 
-daemon(function(couch, options) {
+daemon(function(url, options) {
   return function(source) {
     var count = 0;
 
