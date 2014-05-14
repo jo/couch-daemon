@@ -14,6 +14,7 @@ var client = require('../lib/client')(process.argv);
 
 client(function(s) {
   return s.filter(function(d) {
+    // console.log('huiiiii');
     return d.db_name && d.id && d.seq;
   })
   .map(function(d) {

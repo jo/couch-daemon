@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/jo/couch-daemon",
   "dependencies": {
-    "nano": "^5.8.0",
+    "nano": "^5.9.1",
     "JSONStream": "^0.7.3",
     "highland": "^1.24.0",
     "minimist": "0.0.8"
