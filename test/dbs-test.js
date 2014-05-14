@@ -6,6 +6,7 @@ helper.withDB('initial db', function(couch, db, t, done) {
     .filter(function(d) {
       return d.db_name === db.config.db || d.db_name === '_users';
     })
+    .take(2)
     .toArray(function(rows) {
       t.equal(rows.length, 2, 'two rows included');
       done();
@@ -14,6 +15,7 @@ helper.withDB('initial db', function(couch, db, t, done) {
 
 helper.withDB('whitelist', function(couch, db, t, done) {
   dbs(couch.config.url, { whitelist: [db.config.db] })
+    .take(1)
     .toArray(function(rows) {
       t.equal(rows.length, 1, 'one row included');
       t.equal(rows[0].stream, 'dbs', 'stream is dbs');
@@ -25,6 +27,7 @@ helper.withDB('whitelist', function(couch, db, t, done) {
 
 helper.withDB('blacklist', function(couch, db, t, done) {
   dbs(couch.config.url, { blacklist: ['_users'] })
+    .take(1)
     .filter(function(d) {
       return d.db_name === '_users';
     })
@@ -33,3 +36,4 @@ helper.withDB('blacklist', function(couch, db, t, done) {
       done();
     });
 });
+

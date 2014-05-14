@@ -13,10 +13,10 @@ Everything can change.
 (Send me a pull to add yours.)
 
 ## Examples
-An example client is included, which just prints out each doc in each dbs:
+An example daemon is included, which just prints out each change in all dbs:
 
 ```shell
-./examples/client.js --name my-daemon
+./examples/logger.js --name my-daemon
 ```
 
 ## Contributing

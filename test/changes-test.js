@@ -24,12 +24,16 @@ helper.withDB('piped from db stream', function(couch, db, t, done) {
         _([e]),
         changes(couch.config.url)
       )
-      .take(1)
+      .take(2)
       .toArray(function(results) {
-        t.equal(results.length, 1, 'one result included');
-        t.equal(results[0].stream, 'changes', 'changes stream');
-        t.equal(results[0].db_name, db.config.db, 'correct db_name present');
-        t.equal(results[0].id, doc._id, 'doc id is present');
+        t.equal(results.length, 2, 'two results included');
+
+        t.deepEqual(results[0], e, 'kickoff stream');
+
+        t.equal(results[1].stream, 'changes', 'changes stream');
+        t.equal(results[1].db_name, db.config.db, 'correct db_name present');
+        t.equal(results[1].id, doc._id, 'doc id is present');
+
         done();
       });
   });
