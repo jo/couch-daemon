@@ -18,7 +18,7 @@ helper.withDB('no function', function(couch, db, t, done) {
 
   var stream = _.pipeline(
       _([e]),
-      compile({ name: 'mydaemon' })
+      compile(db.config.url, { name: 'mydaemon' })
     )
     .take(2)
     .toArray(function(results) {
@@ -49,7 +49,7 @@ helper.withDB('single function', function(couch, db, t, done) {
 
   var stream = _.pipeline(
       _([e]),
-      compile({ name: 'mydaemon' })
+      compile(db.config.url, { name: 'mydaemon' })
     )
     .take(2)
     .toArray(function(results) {
@@ -79,7 +79,7 @@ helper.withDB('toplevel function', function(couch, db, t, done) {
 
   var stream = _.pipeline(
       _([e]),
-      compile({ name: 'mydaemon' })
+      compile(db.config.url, { name: 'mydaemon' })
     )
     .take(2)
     .toArray(function(results) {
