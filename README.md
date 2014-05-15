@@ -1,22 +1,86 @@
 # couch-daemon
-High-level os daemon API for CouchDB.
+High-level sugar for CouchDBs [`os_daemon`](http://docs.couchdb.org/en/latest/config/externals.html#os_daemons).
+With a [Highland](http://highlandjs.org/) streaming interface.
 
 [![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
 
-# This is work in progress!
-Everything can change.
+## Usage
+couch-daemon provides high-level interface as well as low-level streams.
+couch-daemon is built as a pipeline of six streams:
+
+* `dbs`: Create a stream of databases, filtered via black- and white lists.
+* `ddocs`: Fetch and emit design docs.
+* `changes`: Create a global stream of changes.
+* `compile`: Compile functions defined in ddocs.
+* [your worker stream]
+* `checkpoint`: Store last seq in checkpoint docs.
+* `logger`: Print log events.
+
+The idea is to store per database daemon configuration in design documents in an
+object under the daemon name. The configuration cana have functions, like
+filters or processors (see [couchmagick](https://github.com/jo/couchmagick) and
+[massage-couch](https://github.com/jo/massage-couch)). couch-daemon looks at those configurations
+and evaluates each function in a sandbox.
+The actual daemon code is modelled as [through stream](http://highlandjs.org/#through).
+It receives configuration as well as changes of each database it is configured
+for. You can do anything you want inside that stream - make http calls to the outside,
+query the database or run long computations. When you're done you emit the
+original event to have couch-daemon store the checkpoint.
+Do not hesitate to open a ticket if something is unclear - this was written a
+bit in a hussle.
+
+When using the high-level interface you do not need to handle `os_daemon` communication with
+CouchDB, commandline option parsing nor set up the pipeline yourself. Just call
+couch-daemon with your (optional) defaults and a stream and you're fine:
+```js
+require('couch-daemon')({ include_docs }, functions(url, options) {
+  // url comes from daemon configuration,
+  // as well as the options
+
+  return function(source) {
+    return source
+      .filter...
+      .group...
+      .zip...
+      .whatever...
+  };
+});
+```
+
+### Configuration
+The daemon is set up in the `os_daemons` config section:
+
+```ini
+[os_daemons]
+mydaemon = mydaemon
+```
+
+The actual configuration is done under its own config section:
+```ini
+[mydaemon]
+; Optional username and password, used by the workers to access the database
+username = mein-user
+password = secure
+; Whitelist databases: only the databases above are used (seperate with comma)
+; whitelist = mydb,otherdb
+; Blacklist: ignore the following databases (again comma seperated list)
+blacklist = _users,_replicator
+```
+
+
 
 ## Daemons in the wild
-* [couchmagick](https://github.com/jo/couchmagick) TBD
-* [massage-couch](https://github.com/jo/massage-couch) TBD
+* [dimensionist](https://github.com/jo/dimensionist)
+* TBD: [couchmagick](https://github.com/jo/couchmagick)
+* TBD: [massage-couch](https://github.com/jo/massage-couch)
 
-(Send me a pull to add yours.)
+Send me a pull to add yours.
 
 ## Examples
-An example daemon is included, which just prints out each change in all dbs:
+An example daemon is included. It just prints out each change in all dbs:
 
 ```shell
-./examples/logger.js --name my-daemon
+./examples/logger.js --name my-daemon --blacklist _users
 ```
 
 ## Contributing
