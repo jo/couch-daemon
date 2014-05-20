@@ -2,7 +2,6 @@ var helper = require('./helper');
 var checkpoint = require('../lib/checkpoint');
 
 var _ = require('highland');
-var JSONStream = require('JSONStream');
 
 helper.withDB('single doc', function(couch, db, t, done) {
   var e = {
