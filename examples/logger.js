@@ -9,7 +9,7 @@
 var daemon = require('..');
 
 
-daemon(function(url, options) {
+daemon({ name: 'couch-daemon-example-logger' }, function(url, options) {
   return function(source) {
     var count = 0;
 

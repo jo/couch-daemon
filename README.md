@@ -70,7 +70,10 @@ blacklist = _users,_replicator
 ### Commandline
 couch-daemon makes it easy to test your daemon via commandline. couch-daemon
 detects if it has been started interactively.
-It then parses commandline options and prints out log messages to console.
+(Use `--daemon` argument for testing CouchDB os daemon interaction.)
+
+When running interactively couch-daemon parses commandline options
+and prints out log messages to console.
 
 
 ## Daemons in the wild

@@ -1,6 +1,6 @@
 {
   "name": "couch-daemon",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "nano": "^5.9.1",
     "highland": "^1.24.0",
     "minimist": "0.0.8",
-    "couch-daemon-bridge": "^2.0.1"
+    "couch-daemon-bridge": "^2.0.3"
   },
   "devDependencies": {
     "tap": "^0.4.9"
