@@ -1,6 +1,6 @@
 {
   "name": "couch-daemon",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "JSONStream": "^0.7.3",
     "highland": "^1.24.0",
     "minimist": "0.0.8",
-    "couch-daemon-bridge": "^1.2.2"
+    "couch-daemon-bridge": "^2.0.0"
   },
   "devDependencies": {
     "tap": "^0.4.9"
