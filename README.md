@@ -48,7 +48,7 @@ require('couch-daemon')({ include_docs }, functions(url, options) {
 ```
 
 ### Configuration
-The daemon is set up in the `os_daemons` config section (in local.ini):
+The daemon is set up in the `os_daemons` config section (eg. in local.ini):
 
 ```ini
 [os_daemons]
