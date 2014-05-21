@@ -78,7 +78,7 @@ and prints out log messages to console.
 
 ## Daemons in the wild
 * [dimensionist](https://github.com/jo/dimensionist)
-* TBD: [couchmagick](https://github.com/jo/couchmagick)
+* [couchmagick](https://github.com/jo/couchmagick)
 * TBD: [massage-couch](https://github.com/jo/massage-couch)
 
 Send me a pull to add yours.
