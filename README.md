@@ -61,9 +61,9 @@ The actual configuration is done under its own config section:
 ; Optional username and password, used by the workers to access the database
 username = mein-user
 password = secure
-; Whitelist databases: only the databases above are used (seperate with comma)
+; Only documents in the databases above are processed (seperate with comma)
 ; whitelist = mydb,otherdb
-; Blacklist: ignore the following databases (again comma seperated list)
+; Ignore the following databases (again comma seperated list)
 blacklist = _users,_replicator
 ```
 
