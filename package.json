@@ -1,6 +1,6 @@
 {
   "name": "couch-daemon",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
