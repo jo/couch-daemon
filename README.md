@@ -79,7 +79,10 @@ and prints out log messages to console.
 ## Daemons in the wild
 * [dimensionist](https://github.com/jo/dimensionist)
 * [couchmagick](https://github.com/jo/couchmagick)
-* TBD: [massage-couch](https://github.com/jo/massage-couch)
+* [massage-couch](https://github.com/jo/massage-couch)
+* TBD: [worker-fetch-tweets](https://github.com/jo/worker-fetch-tweets)
+* TBD: [worker-generate-stills](https://github.com/jo/worker-generate-stills)
+* TBD: [worker-fetch-json](https://github.com/jo/worker-fetch-json)
 
 Send me a pull to add yours.
 
