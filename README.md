@@ -61,10 +61,14 @@ The actual configuration is done under its own config section:
 ; Optional username and password, used by the workers to access the database
 username = mein-user
 password = secure
-; Only documents in the databases above are processed (seperate with comma)
-; whitelist = mydb,otherdb
-; Ignore the following databases (again comma seperated list)
+; Only documents in the databases below are processed (separate with comma)
+whitelist = mydb,otherdb
+; Alternatively, whitelist all dbs starting with 'foo' with a regexp
+whitelist_regexp = /^foo/
+; Ignore the following databases (again comma separated list)
 blacklist = _users,_replicator
+; Or use regexp to blacklist all dbs with name containing 'temp'
+blacklist_regexp = /temp/
 ```
 
 ### Commandline
