@@ -35,8 +35,25 @@ helper.withDB('whitelist', function(couch, db, t, done) {
     });
 });
 
-helper.withDB('whitelist_regexp', function(couch, db, t, done) {
-  var stream = dbs(couch.config.url, { whitelist_regexp: new RegExp('^mydae') });
+helper.withDB('whitelist with regexp', function(couch, db, t, done) {
+  var stream = dbs(couch.config.url, { whitelist: new RegExp('^mydae') });
+
+  setTimeout(function() {
+    stream.end();
+  }, 300);
+
+  stream
+    .toArray(function(rows) {
+      t.equal(rows.length, 1, 'one row included');
+      t.equal(rows[0].stream, 'dbs', 'stream is dbs');
+      t.equal(rows[0].type, 'created', 'type is created');
+      t.equal(rows[0].db_name, db.config.db, db.config.db + ' included');
+      done();
+    });
+});
+
+helper.withDB('whitelist with regexp as string', function(couch, db, t, done) {
+  var stream = dbs(couch.config.url, { whitelist: '/^mydae/' });
 
   setTimeout(function() {
     stream.end();
@@ -69,8 +86,24 @@ helper.withDB('blacklist', function(couch, db, t, done) {
     });
 });
 
-helper.withDB('blacklist_regexp', function(couch, db, t, done) {
-  var stream = dbs(couch.config.url, { blacklist_regexp: new RegExp('^_u') });
+helper.withDB('blacklist with regexp', function(couch, db, t, done) {
+  var stream = dbs(couch.config.url, { blacklist: new RegExp('^_u') });
+  setTimeout(function() {
+    stream.end();
+  }, 300);
+
+  stream
+    .map(function(d) {
+      return d.db_name;
+    })
+    .toArray(function(rows) {
+       t.equal(rows.indexOf('_users'), -1, '_users not included');
+       done();
+    });
+});
+
+helper.withDB('blacklist with regexp as string', function(couch, db, t, done) {
+  var stream = dbs(couch.config.url, { blacklist: '/^_u/' });
   setTimeout(function() {
     stream.end();
   }, 300);
