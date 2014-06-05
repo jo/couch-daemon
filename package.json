@@ -4,7 +4,7 @@
   "description": "CouchDB Daemon",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*-test.js"
+    "test": "tap test/*-test.js test/**/*-test.js"
   },
   "repository": {
     "type": "git",
