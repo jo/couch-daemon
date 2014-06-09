@@ -8,15 +8,27 @@ With a [Highland](http://highlandjs.org/) streaming interface.
 couch-daemon provides high-level interface as well as low-level streams.
 couch-daemon is built as a pipeline of six streams:
 
-* `dbs`: Create a stream of databases, filtered via black- and white lists.
-* `ddocs`: Fetch and emit design docs.
-* `changes`: Create a global stream of changes.
-* `compile`: Compile functions defined in ddocs.
-* [your worker stream]
-* `checkpoint`: Store last seq in checkpoint docs.
-* `logger`: Print log events.
+```js
+_.pipeline(
+  //Create a stream of databases, filtered via black- and white lists.
+  dbs(couch, opts),
+  // Fetch and emit design docs.
+  ddocs(couch, opts),
+  // Create a global stream of changes.
+  changes(couch, opts),
+  // Compile functions defined in ddocs.
+  compile(couch, opts),
 
-The idea is to store per database daemon configuration in design documents in an
+  your_worker(couch, opts),
+
+  // Store last seq in checkpoint docs.
+  checkpoint(couch, opts),
+  // Print log events.
+  logger(couch, opts)
+);
+```
+
+he idea is to store per database daemon configuration in design documents in an
 object under the daemon name. The configuration cana have functions, like
 filters or processors (see [couchmagick](https://github.com/jo/couchmagick) and
 [massage-couch](https://github.com/jo/massage-couch)). couch-daemon looks at those configurations
@@ -31,9 +43,9 @@ bit in a hussle.
 
 When using the high-level interface you do not need to handle `os_daemon` communication with
 CouchDB, commandline option parsing nor set up the pipeline yourself. Just call
-couch-daemon with your (optional) defaults and a stream and you're fine:
+couch-daemon with (optional) defaults and your worker stream and you're fine:
 ```js
-require('couch-daemon')({ include_docs }, functions(url, options) {
+require('couch-daemon')({ include_docs: true }, functions(url, options) {
   // url comes from daemon configuration,
   // as well as the options
 
@@ -46,6 +58,21 @@ require('couch-daemon')({ include_docs }, functions(url, options) {
   };
 });
 ```
+
+### Logging
+The last stream in the couch-daemon pipeline is one that logs either to
+CouchDB's log or, when running in CLI mode, prints to console.
+
+You can instruct the logger to respect your message by emitting a special log
+event from your worker stream:
+```js
+{
+  type: 'log',
+  level: 'debug',  // Default is 'info'. Also possible: 'error'
+  message: 'And the stars look very different today'
+}
+```
+See _examples/logger.js_ for a concrete example.
 
 ### Configuration
 The daemon is set up in the `os_daemons` config section (eg. in local.ini):
