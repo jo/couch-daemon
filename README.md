@@ -106,7 +106,7 @@ and prints out log messages to console.
 
 
 ## Daemons in the wild
-* [dimensionist](https://github.com/jo/dimensionist)
+* [Dimensionist](https://github.com/jo/dimensionist)
 * [Couchmagick](https://github.com/jo/couchmagick)
 * [Massage Couch](https://github.com/jo/massage-couch)
 * TBD: [worker-fetch-tweets](https://github.com/jo/worker-fetch-tweets)
