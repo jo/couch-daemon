@@ -22,11 +22,10 @@
   },
   "homepage": "https://github.com/jo/couch-daemon",
   "dependencies": {
-    "nano": "^5.9.1",
+    "nano": "^5.10.0",
     "highland": "^1.24.0",
     "minimist": "0.0.8",
-    "couch-daemon-bridge": "^2.0.3",
-    "follow": "git://github.com/iriscouch/follow.git#98456797b0d652ac9cf0ae7dd0ae8c9f25531c58"
+    "couch-daemon-bridge": "^2.0.3"
   },
   "devDependencies": {
     "tap": "^0.4.9"
