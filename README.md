@@ -4,6 +4,9 @@ With a [Highland](http://highlandjs.org/) streaming interface.
 
 [![Build Status](https://travis-ci.org/jo/couch-daemon.svg?branch=master)](https://travis-ci.org/jo/couch-daemon)
 
+## Deprecated!
+os_daemons are deprecated in CouchDB and and will be removed soon.
+
 ## Usage
 couch-daemon provides high-level interface as well as low-level streams.
 couch-daemon is built as a pipeline of six streams:
